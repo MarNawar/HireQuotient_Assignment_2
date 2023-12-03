@@ -127,6 +127,9 @@ table {
 }
 
 @media (max-width: 300px)  {
+  .pagination-results-update > div:last-of-type  span{
+    font-size: 8px;
+  }
   .pagination-results-update > div:last-of-type  span.numberButton{
     display: none;
   }
@@ -173,6 +176,9 @@ table {
 
 @media (min-width: 301px) and (max-width: 500px) {
   /* … */
+  .pagination-results-update > div:last-of-type  span{
+    font-size: 10px;
+  }
   .pagination-results-update > div:last-of-type  span.numberButton{
     display: none;
   }

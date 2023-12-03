@@ -280,7 +280,7 @@
     const div = document.createElement('div');
     div.classList.add('updatePaginationContainer');
     div.innerHTML = `
-      <span style="font-size:14px; margin:0 20px">${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)} Pages</span>
+      <span style="font-size:14px; margin:0 20px">${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)}</span>
       <button class="btn-pagination" id="first"><i class="fa-solid fa-angles-left"></i></button>
       <button class="btn-pagination" id="prev"><i class="fa-solid fa-angle-left"></i></button>
       <span class="numberButton">${updatePaginationButtons(Math.ceil((ind+1)/rowsPerPage), Math.ceil(userData.length/rowsPerPage))}</span>
