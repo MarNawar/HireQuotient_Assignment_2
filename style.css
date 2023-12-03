@@ -126,9 +126,52 @@ table {
   cursor: not-allowed;
 }
 
+@media (max-width: 300px)  {
+  .pagination-results-update > div:last-of-type  span{
+    display: none;
+  }
+  .pagination-results-update{
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    align-items: center;
+    margin-bottom: 10%;
+
+  }
+  .pagination-results-update > div{
+    margin-top: 25px;
+  }
+  .bodysection{
+    position: absolute;
+    width: 95%;
+    margin: 0 2.5%;
+  }
+  td {
+    border-bottom: 1px solid #E4E4E4;
+    height: 30px;
+    font-size: 8px;
+  
+  }
+  td button{
+    margin: 1px 2.5px;
+    padding: 2.5px 5px;
+    font-size: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 4px;
+  }
+  td input[type = "text"], td input[type = "email"]{
+    padding: 2px 4px;
+    font-size: 8px;
+    outline: none;
+    background-color: #E4E4E4;
+    border-radius: 4px;
+    border: 1px solid #E4E4E4;
+  }
+  
+}
 
 
-@media (max-width: 750px) {
+@media (min-width: 301px) and (max-width: 500px) {
   /* … */
   .pagination-results-update > div:last-of-type  span{
     display: none;
@@ -148,6 +191,27 @@ table {
     position: absolute;
     width: 95%;
     margin: 0 2.5%;
+  }
+  td {
+    border-bottom: 1px solid #E4E4E4;
+    height: 40px;
+    font-size: 10px;
+  
+  }
+  td button{
+    margin: 1px 2.5px;
+    padding: 2.5px 5px;
+    font-size: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 4px;
+  }
+  td input[type = "text"], td input[type = "email"]{
+    padding: 2px 4px;
+    font-size: 10px;
+    outline: none;
+    background-color: #E4E4E4;
+    border-radius: 4px;
+    border: 1px solid #E4E4E4;
   }
 
 }
@@ -171,6 +235,28 @@ table {
     position: absolute;
     width: 90%;
     margin: 0 5%;
+  }
+
+  td {
+    border-bottom: 1px solid #E4E4E4;
+    height: 50px;
+    font-size: 10px;
+  
+  }
+  td button{
+    margin: 1px 2.5px;
+    padding: 2.5px 5px;
+    font-size: 8px;
+    border: 1px solid #E4E4E4;
+    border-radius: 4px;
+  }
+  td input[type = "text"], td input[type = "email"]{
+    padding: 2px 4px;
+    outline: none;
+    font-size: 10px;
+    background-color: #E4E4E4;
+    border-radius: 4px;
+    border: 1px solid #E4E4E4;
   }
 
 }
