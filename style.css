@@ -6,9 +6,8 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
+  width: 100vmax;
+  height: 100vmin;
   margin: 0px;
   padding: 0px;
 }
@@ -134,14 +133,13 @@ table {
     display: none;
   }
   .pagination-results-update{
-    position: fixed;
-    bottom: 10%;
+    
     width: 80%;
-    height: 7%;
+    height: 5%;
     margin: 0 10%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
   }
 
@@ -155,15 +153,14 @@ table {
   }
   
   .pagination-results-update{
-    position: fixed;
-    bottom: 10%;
     width: 80%;
     height: 10%;
     margin: 0 10%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: end;
     align-items: center;
   }
+  
 
 }
