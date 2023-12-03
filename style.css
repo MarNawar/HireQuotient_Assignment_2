@@ -213,7 +213,8 @@ table {
   }
   td input[type = "text"], td input[type = "email"]{
     padding: 2px 4px;
-    font-size: 10px;
+    font-size: 8px;
+    margin: 0;
     outline: none;
     background-color: #E4E4E4;
     border-radius: 4px;
