@@ -40,7 +40,13 @@ body {
   border-radius: 4px;
   border: 1px solid #E4E4E4;
 }
-
+.actions_container button{
+  height: 100%;
+  padding: 8px 10px;
+  background-color: #FF0000;
+  border-radius: 4px;
+  border: none;
+}
 /* .actions_container button{
 
 } */
@@ -66,6 +72,14 @@ td input[type = "text"], td input[type = "email"]{
   border: 1px solid #E4E4E4;
 }
  
+td button{
+  margin: 2px 5px;
+  padding: 5px 10px;
+  font-size: 12px;
+  border: 1px solid #E4E4E4;
+  border-radius: 4px;
+}
+
 
 table {
   width: 100%;
@@ -89,4 +103,35 @@ table {
   font-size: 12px;
 }
 
+.pagination-results-update > div:last-of-type  button{
+  margin: 0 5px;
+  padding: 5px 10px;
+  color: #2c2c2ce4 !important;
+  font-size: 12px;
+  border: 1px solid #E4E4E4;
+  border-radius: 4px;
+}
+.pagination-results-update > div:last-of-type  button[disabled] i{
+  
+  color: #a19e9ee4 !important;
+ 
+}
 
+
+
+@media (max-width: 750px) {
+  /* … */
+  .pagination-results-update > div:last-of-type  span{
+    display: none;
+  }
+
+}
+
+@media (min-width: 501px) and (max-width: 850px) {
+  .pagination-results-update > div:last-of-type  button{
+    margin: 0;
+    padding: 5px 5px;
+
+  }
+
+}

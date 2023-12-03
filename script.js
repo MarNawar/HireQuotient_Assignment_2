@@ -36,7 +36,7 @@
         <td>${element.name}</td>
         <td>${element.email}</td>
         <td>${element.role}</td>
-        <td><button onclick="editRow(this,'${element.id}')">+</button><button onclick="del('${element.id}')">X</button></td>
+        <td><button onclick="editRow(this,'${element.id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button onclick="del('${element.id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>
       </tr>`
     });
     chechForMasterSelector();
@@ -204,7 +204,7 @@
       </td>
       <td><input type="text" id="role" placeholder="Enter Role" class="form-input" value='${element[3].innerText}'/>
       </td>
-      <td><button onclick="updateRow(this, '${id}', '${updatedValues.isChecked}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> ? </button> <button onclick="del('${id}')">X</button></td>`;
+      <td><button onclick="updateRow(this, '${id}', '${updatedValues.isChecked}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button> <button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>`;
   
     row.addEventListener('input', (e)=>{
       if(e.target.id === 'userName'){
@@ -216,7 +216,7 @@
       else if(e.target.id === 'role'){
         updatedValues.role = e.target.value;
       }
-      row.children[4].innerHTML = `<td><button onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> ? </button> <button onclick="del('${id}')">X</button></td>`;
+      row.children[4].innerHTML = `<td><button onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button> <button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>`;
     });
     
   
@@ -239,7 +239,7 @@
         <td>${userName}</td>
         <td>${email}</td>
         <td>${role}</td>
-        <td><button onclick="editRow(this,'${id}')">+</button><button onclick="del('${id}')">X</button></td>
+        <td><button onclick="editRow(this,'${id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>
       `
   
   }
@@ -262,29 +262,27 @@
     div.classList.add('pagination');
     div.innerHTML = `
       <span style="font-size:14px; margin:0 20px">${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)} Pages</span>
-      <button class="btn btn-primary" id="first">First</button>
-      <button class="btn btn-primary" id="prev">Prev</button>
+      <button class="btn btn-primary" id="first"><i class="fa-solid fa-angles-left"></i></button>
+      <button class="btn btn-primary" id="prev"><i class="fa-solid fa-angle-left"></i></button>
       <span class="numberButton">${numberedButton(Math.ceil((ind+1)/rowsPerPage), Math.ceil(userData.length/rowsPerPage))}</span>
-      <button class="btn btn-primary" id="next">Next</button>
-      <button class="btn btn-primary" id="last">Last</button>
+      <button class="btn btn-primary" id="next"><i class="fa-solid fa-angle-right"></i></button>
+      <button class="btn btn-primary" id="last"><i class="fa-solid fa-angles-right"></i></button>
     `;
     document.querySelector('#pagination').innerHTML='';
     document.querySelector('#pagination').appendChild(div);
 
   
-    //Disabled Prev Button if on first page or 0 pages
+    //Disabled Prev and First Button if on first page or 0 pages
     if(userData.length===0||Math.ceil((ind+1)/rowsPerPage) === Number(1)){
       document.querySelector('#prev').disabled = true;
-    }
-    // Disabled first and last button if user data is 0
-    if(userData.length===0){
       document.querySelector('#first').disabled = true;
-      document.querySelector('#last').disabled = true;
     }
+    
   
-    //Disabled Next Page if on last page or 0 pages
+    //Disabled Next and Last Button if on last page or 0 pages
     if(userData.length===0||Math.ceil((ind+1)/rowsPerPage) === Math.ceil(userData.length/rowsPerPage)){
       document.querySelector('#next').disabled = true;
+      document.querySelector('#last').disabled = true;
     }
   
     //Next Page
