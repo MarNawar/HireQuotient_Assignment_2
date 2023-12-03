@@ -12,16 +12,16 @@
     <div class = "actions_container">
       <input
       type="text"
-      class="form-input-filter"
+      class="form-input-filter search-icon"
       id="filter"
-      placeholder="Filter Items"
+      placeholder="Search Items"
     />    
-    <button onclick="delAll()"><i class="fa-regular fa-trash-can" style="color: #FFF; background-color: #FF0000;"></i></button>
+    <button onclick="deleteAllRows()"><i class="fa-regular fa-trash-can" style="color: #FFF; background-color: #FF7F7F;"></i></button>
     </div>
     
     <table>
       <thead class="theading">
-          <th><input type = 'checkbox' onchange="selectedAll()"></th>
+          <th><input type = 'checkbox' onchange="selectAllRows()"></th>
           <th>Name</th>
           <th>Email</th>
           <th>Role</th>
@@ -36,7 +36,7 @@
   </section>
   <section  class="pagination-results-update">
     <div id="selected-results"><p class="selected-result">0 item(s) selected from 0 item(s)</p></div>
-    <div id="pagination"></div>
+    <div id="updatePaginationContainer"></div>
   </section>
 
   

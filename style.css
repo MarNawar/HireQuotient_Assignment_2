@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Lato&display=swap');
 
-:root {
-  --modal-duration: 1s;
-  --primary-color: #30336b;
-  --secondary-color: #be2edd;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -43,7 +37,7 @@ body {
 .actions_container button{
   height: 100%;
   padding: 8px 10px;
-  background-color: #FF0000;
+  background-color: #FF7F7F;
   border-radius: 4px;
   border: none;
 }
@@ -58,6 +52,10 @@ th{
   height: 30px;
   font-size: 12px;
 }
+
+/* td:input[type='checked'] {
+
+} */
 td {
   border-bottom: 1px solid #E4E4E4;
   height: 50px;
@@ -68,6 +66,7 @@ td {
 td input[type = "text"], td input[type = "email"]{
   padding: 8px 10px;
   outline: none;
+  background-color: #E4E4E4;
   border-radius: 4px;
   border: 1px solid #E4E4E4;
 }
@@ -80,6 +79,10 @@ td button{
   border-radius: 4px;
 }
 
+
+tr td input[type="checkbox"]:checked{
+  background-color: aquamarine;
+}
 
 table {
   width: 100%;
@@ -101,20 +104,26 @@ table {
   margin: 0;
   color: #2c2c2ce4;
   font-size: 12px;
+  align-items: center;
+  text-align: center;
 }
 
-.pagination-results-update > div:last-of-type  button{
+.btn-pagination{
   margin: 0 5px;
   padding: 5px 10px;
   color: #2c2c2ce4 !important;
   font-size: 12px;
   border: 1px solid #E4E4E4;
   border-radius: 4px;
+  cursor: pointer;
 }
-.pagination-results-update > div:last-of-type  button[disabled] i{
-  
+
+.btn-pagination[disabled] i{
   color: #a19e9ee4 !important;
- 
+}
+
+.btn-pagination[disabled]{
+  cursor: not-allowed;
 }
 
 

@@ -1,48 +1,57 @@
 //Table
-  const tableheading = document.querySelector('.theading');
-  const tablerows = document.querySelector('.trows');
-  const itemFilter = document.getElementById('filter');
+  const tableRows = document.querySelector('.trows');
+//Search Filter
+  const searchInputFilter = document.querySelector('.search-icon');
 
 
-  let allData;
-  let selectedCheckboxesIds =[];
+  let initialData;
+  let selectedRowIds =[];
   let ind = 0;
   const rowsPerPage = 10;
 
 
-  //render the table for first time
-  render('./pending.json');
+  //getAdminRowsData the table for first time
+  getAdminRowsData('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
 
-  //render Table 
-  async function render(jsonString){
-    const res = await fetch('https://geektrust.s3-ap-southeast-1.amazonaws.com/adminui-problem/members.json');
-    allData = await res.json();
-
-    // console.log(allData);
-    fillUserData(allData.filter((data,index)=>{
-      if(index<rowsPerPage){
-        return data;
+  //getAdminRowsData Table 
+  async function getAdminRowsData(apiUrl){
+    try{
+      const res = await fetch(apiUrl);
+      if(res.status !== 200){
+        alert('API response Failed');
+        return;
       }
-    }));
-    pagination(allData);
+      initialData = await res.json();
+
+      updateTable(initialData.filter((data,index)=>{
+        if(index<rowsPerPage){
+          return data;
+        }
+      }));
+      updatePaginationContainer(initialData);
+    }
+    catch{
+      console.log('API response Failed');
+    }
+    
   }
 
-  function fillUserData(userData){
-    tablerows.innerHTML ='';
+  function updateTable(userData){
+    tableRows.innerHTML ='';
     userData.forEach(element => {
-      tablerows.innerHTML +=
+      tableRows.innerHTML +=
       `<tr>
-        <td><input type='checkbox' id = '${element.id}' onchange="chechForMasterSelector()"></td>
+        <td><input type='checkbox' id = '${element.id}' onchange="updateHeaderCheckBox()"></td>
         <td>${element.name}</td>
         <td>${element.email}</td>
         <td>${element.role}</td>
-        <td><button onclick="editRow(this,'${element.id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button onclick="del('${element.id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>
+        <td><button class="edit" onclick="editRow(this,'${element.id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button class="delete" onclick="deleteSelectedRows('${element.id}')"><i class="fa-solid fa-trash" style="color: #FF7F7F;"></i></button></td>
       </tr>`
     });
-    chechForMasterSelector();
+    updateHeaderCheckBox();
   }
 
-  function chechForMasterSelector(){
+  function updateHeaderCheckBox(){
     const checkedRows = document.querySelectorAll('.trows input[type="checkbox"]:checked');
     const allRows = document.querySelectorAll('.trows input[type="checkbox"]');
     const masterCheckbox = document.querySelector('.theading input[type="checkbox"]');
@@ -52,38 +61,49 @@
     if(checkedRows.length === allRows.length && allRows.length!==0){
       masterCheckbox.checked = true;
     }
-    document.querySelector('.selected-result').innerHTML = `${checkedRows.length} item(s) selected from ${allData.length} item(s)`;
+    document.querySelector('.selected-result').innerHTML = `${checkedRows.length} item(s) selected from ${initialData.length} item(s)`;
+    
+    //changed color of selected rows and undo of unselected rows
+    allRows.forEach((row)=>{
+      row.parentElement.parentElement.style.backgroundColor = '#fff';
+    })
+    checkedRows.forEach((row)=>{
+      row.parentElement.parentElement.style.backgroundColor = '#dadada';
+    })
+    
   }
 
-  function selectedAll(){
+  function selectAllRows(){
     const masterCheckbox = document.querySelector('.theading input[type="checkbox"]');
     const checkedRows = document.querySelectorAll('.trows input[type="checkbox"]');
     checkedRows.forEach(function(checkbox){
       checkbox.checked = masterCheckbox.checked;
     })     
-    document.querySelector('.selected-result').innerHTML = `${masterCheckbox.checked?checkedRows.length:0} item(s) selected from ${allData.length} item(s)`;
-    
+    document.querySelector('.selected-result').innerHTML = `${masterCheckbox.checked?checkedRows.length:0} item(s) selected from ${initialData.length} item(s)`;
+    checkedRows.forEach((row)=>{
+      row.parentElement.parentElement.style.backgroundColor = masterCheckbox.checked?'#dadada':'#fff';
+    })
   }
 
 
-  function delAll(){
+  function deleteAllRows(){
     const checkedRows = document.querySelectorAll('.trows input[type="checkbox"]:checked'); 
 
     checkedRows.forEach(function(checkbox) {
-      del(checkbox.id);
+      deleteSelectedRows(checkbox.id);
     });
     
-    if(itemFilter.value===''){
-      fillUserData(allData.filter((data,index)=>{
+    if(searchInputFilter.value===''){
+      updateTable(initialData.filter((data,index)=>{
         if(index>=ind&&index<rowsPerPage+ind){
           return data;
         }
       }));
-      pagination(allData);
+      updatePaginationContainer(initialData);
     }
     else{
-      const text = itemFilter.value.toLowerCase();
-      let filterUserData = allData.filter((itm)=>{
+      const text = searchInputFilter.value.toLowerCase();
+      let filterUserData = initialData.filter((itm)=>{
 
         if(JSON.stringify(itm.name).toLowerCase().includes(text)|JSON.stringify(itm.email).toLowerCase().includes(text)|JSON.stringify(itm.role).toLowerCase().includes(text)|JSON.stringify(itm.id).toLowerCase().includes(text)){
           return itm;
@@ -92,46 +112,45 @@
       });
 
 
-      fillUserData(filterUserData.filter((data,index)=>{
+      updateTable(filterUserData.filter((data,index)=>{
         if(ind<=index&&index<rowsPerPage+ind){
           return data;
         }
       }));
-      pagination(filterUserData);
-      // console.log(text);
+      updatePaginationContainer(filterUserData);
     }
     
     
   }
 
-  function del(id){ 
+  function deleteSelectedRows(id){ 
     const checkedRows = document.querySelectorAll('.trows input[type="checkbox"]:checked');
-    selectedCheckboxesIds =[];  
+    selectedRowIds =[];  
     checkedRows.forEach((checkbox)=>{
       if(checkbox.id!==id)
-        selectedCheckboxesIds.push(checkbox.id);
+        selectedRowIds.push(checkbox.id);
     });
 
-    allData = allData.filter((data)=>{
+    initialData = initialData.filter((data)=>{
       if(data.id!==id){
         return true;
       }
     });
 
-    if(itemFilter.value===''){
+    if(searchInputFilter.value===''){
 
-      fillUserData(allData.filter((data,index)=>{
+      updateTable(initialData.filter((data,index)=>{
         if(index>=ind&&index<rowsPerPage+ind){
           return data;
         }
       }));
 
-      selectRemaining();
-      pagination(allData);
+      retainSelectedRows();
+      updatePaginationContainer(initialData);
     }
     else{
-      const text = itemFilter.value.toLowerCase();
-      let filterUserData = allData.filter((itm)=>{
+      const text = searchInputFilter.value.toLowerCase();
+      let filterUserData = initialData.filter((itm)=>{
 
         if(JSON.stringify(itm.name).toLowerCase().includes(text)|JSON.stringify(itm.email).toLowerCase().includes(text)|JSON.stringify(itm.role).toLowerCase().includes(text)|JSON.stringify(itm.id).toLowerCase().includes(text)){
           return itm;
@@ -139,47 +158,46 @@
 
       });
 
-      fillUserData(filterUserData.filter((data,index)=>{
+      updateTable(filterUserData.filter((data,index)=>{
         if(ind<=index&&index<rowsPerPage+ind){
           return data;
         }
       }));
 
-      selectRemaining();
-      pagination(filterUserData);
+      retainSelectedRows();
+      updatePaginationContainer(filterUserData);
 
     }
 
   }
 
-  function selectRemaining(){
-    selectedCheckboxesIds.forEach((id)=>{
+  function retainSelectedRows(){
+    selectedRowIds.forEach((id)=>{
       const checkbox = document.querySelector(`.trows input[type="checkbox"][id='${id}']`);
       checkbox.checked = true;
-      // console.log(checkbox);
     })
     
-    chechForMasterSelector();
+    updateHeaderCheckBox();
   }
 
-  itemFilter.addEventListener('input', filterItems);
+  searchInputFilter.addEventListener('input', filterItems);
   function filterItems(e){
     const text = e.target.value.toLowerCase();
-    let filterUserData = allData.filter((itm)=>{
+    let filterUserData = initialData.filter((itm)=>{
 
       if(JSON.stringify(itm.name).toLowerCase().includes(text)|JSON.stringify(itm.email).toLowerCase().includes(text)|JSON.stringify(itm.role).toLowerCase().includes(text)|JSON.stringify(itm.id).toLowerCase().includes(text)){
         return itm;
       }
 
     });
-    selectedCheckboxesIds = [];
-    fillUserData(filterUserData.filter((data,index)=>{
+    selectedRowIds = [];
+    updateTable(filterUserData.filter((data,index)=>{
       if(index<rowsPerPage){
         return data;
       }
     }));
     ind = 0;
-    pagination(filterUserData);
+    updatePaginationContainer(filterUserData);
   }
 
 
@@ -188,23 +206,24 @@
     const element = row.children;
   
     
-   
   
       const updatedValues = {
         userName : row.children[1].innerText,
         email : row.children[2].innerText,
         role : row.children[3].innerText,
       };
+      //change color of selected rows
+      row.style.backgroundColor = '#dadada';
   
     row.innerHTML = 
-      `<td><input type='checkbox' id = '${id}' checked=${element[0].children[0].checked}></td>
+      `<td><input type='checkbox' id = '${id}' checked=${element[0].children[0].checked} ></td>
       <td><input type="text" id="userName" placeholder="Enter Name" class="form-input" value='${element[1].innerText}'/>
       </td>
       <td><input type="email" id="email" placeholder="Enter Email" class="form-input" value='${element[2].innerText}'/>
       </td>
       <td><input type="text" id="role" placeholder="Enter Role" class="form-input" value='${element[3].innerText}'/>
       </td>
-      <td><button onclick="updateRow(this, '${id}', '${updatedValues.isChecked}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button> <button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>`;
+      <td><button class="save" onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button><button class="delete" onclick="deleteSelectedRows('${id}')"><i class="fa-solid fa-trash" style="color: #FF7F7F;"></i></button></td>`;
   
     row.addEventListener('input', (e)=>{
       if(e.target.id === 'userName'){
@@ -216,7 +235,7 @@
       else if(e.target.id === 'role'){
         updatedValues.role = e.target.value;
       }
-      row.children[4].innerHTML = `<td><button onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button> <button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>`;
+      row.children[4].innerHTML = `<td><button class="save" onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> <i class="fa-solid fa-check" style="color: #232325;"></i> </button><button class="delete" onclick="deleteSelectedRows('${id}')"><i class="fa-solid fa-trash" style="color: #FF7F7F;"></i></button></td>`;
     });
     
   
@@ -225,8 +244,10 @@
   
   function updateRow(selectElement, id, userName, email, role){
     const row = selectElement.parentElement.parentElement;
+    row.style.backgroundColor = '#fff';
+
     
-    allData.forEach((user)=>{
+    initialData.forEach((user)=>{
       if(user.id===id){
         user.name = userName;
         user.email = email;
@@ -235,18 +256,17 @@
     });
   
     row.innerHTML=`
-        <td><input type='checkbox' id = '${id}'></td>
+        <td><input type='checkbox' id = '${id}' onchange="updateHeaderCheckBox()"></td>
         <td>${userName}</td>
         <td>${email}</td>
         <td>${role}</td>
-        <td><button onclick="editRow(this,'${id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button onclick="del('${id}')"><i class="fa-solid fa-trash" style="color: #FF0000;"></i></button></td>
+        <td><button class="edit" onclick="editRow(this,'${id}')"><i class="fa-regular fa-pen-to-square" style="color: #36383a;"></i></button><button class="delete" onclick="deleteSelectedRows('${id}')"><i class="fa-solid fa-trash" style="color: #FF7F7F;"></i></button></td>
       `
   
   }
 
 
-  function pagination(userData){
-    // console.log(ind, userData);
+  function updatePaginationContainer(userData){
     if(ind>=userData.length&&ind-rowsPerPage>=0){
       ind= ind-rowsPerPage;
       const newUserData = userData.filter((data,index)=>{
@@ -254,22 +274,21 @@
           return data;
         }
       });
-      fillUserData(newUserData);
+      updateTable(newUserData);
     }
     
-    // console.log(ind, userData.length, userData);
     const div = document.createElement('div');
-    div.classList.add('pagination');
+    div.classList.add('updatePaginationContainer');
     div.innerHTML = `
       <span style="font-size:14px; margin:0 20px">${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)} Pages</span>
-      <button class="btn btn-primary" id="first"><i class="fa-solid fa-angles-left"></i></button>
-      <button class="btn btn-primary" id="prev"><i class="fa-solid fa-angle-left"></i></button>
-      <span class="numberButton">${numberedButton(Math.ceil((ind+1)/rowsPerPage), Math.ceil(userData.length/rowsPerPage))}</span>
-      <button class="btn btn-primary" id="next"><i class="fa-solid fa-angle-right"></i></button>
-      <button class="btn btn-primary" id="last"><i class="fa-solid fa-angles-right"></i></button>
+      <button class="btn-pagination" id="first"><i class="fa-solid fa-angles-left"></i></button>
+      <button class="btn-pagination" id="prev"><i class="fa-solid fa-angle-left"></i></button>
+      <span class="numberButton">${updatePaginationButtons(Math.ceil((ind+1)/rowsPerPage), Math.ceil(userData.length/rowsPerPage))}</span>
+      <button class="btn-pagination" id="next"><i class="fa-solid fa-angle-right"></i></button>
+      <button class="btn-pagination" id="last"><i class="fa-solid fa-angles-right"></i></button>
     `;
-    document.querySelector('#pagination').innerHTML='';
-    document.querySelector('#pagination').appendChild(div);
+    document.querySelector('#updatePaginationContainer').innerHTML='';
+    document.querySelector('#updatePaginationContainer').appendChild(div);
 
   
     //Disabled Prev and First Button if on first page or 0 pages
@@ -293,9 +312,8 @@
           return data;
         }
       });
-      fillUserData(newUserData);
-      // console.log(userData,newUserData,ind);
-      pagination(userData);
+      updateTable(newUserData);
+      updatePaginationContainer(userData);
     });
 
     //Last
@@ -306,8 +324,8 @@
           return data;
         }
       });
-      fillUserData(newUserData);
-      pagination(userData);
+      updateTable(newUserData);
+      updatePaginationContainer(userData);
     });
   
     //Prev Page
@@ -318,8 +336,8 @@
           return data;
         }
       });
-      fillUserData(newUserData);
-      pagination(userData);
+      updateTable(newUserData);
+      updatePaginationContainer(userData);
 
     });
 
@@ -331,11 +349,11 @@
           return data;
         }
       });
-      fillUserData(newUserData);
-      pagination(userData);
+      updateTable(newUserData);
+      updatePaginationContainer(userData);
     });
 
-    // numbered buttons
+    // Numbered buttons
     document.querySelector('.numberButton').addEventListener('click',function(e){
       ind = (Number(e.target.id)-1)*rowsPerPage;
       const newUserData = userData.filter((data,index)=>{
@@ -343,21 +361,20 @@
           return data;
         }
       });
-      fillUserData(newUserData);
-      pagination(userData);
+      updateTable(newUserData);
+      updatePaginationContainer(userData);
 
     })
     
   }
 
-  function numberedButton(ind,total){
+  function updatePaginationButtons(ind,total){
 
     const fBtn = Math.floor(ind/(rowsPerPage+1))*(rowsPerPage)+1;
     const lBtn = Math.min(Math.floor(ind/(rowsPerPage+1))*(rowsPerPage)+(rowsPerPage),total);
-    // console.log(fBtn , lBtn , ind , total);
     let str = '';
     for(let i=fBtn;i<=lBtn;i++){
-      str+= `<button id ='${i}' class="btn bt n-primary">${i}</button>`
+      str+= `<button id ='${i}' class="btn-pagination">${i}</button>`
     }
     return str;
   }
