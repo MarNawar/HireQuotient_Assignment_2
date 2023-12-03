@@ -156,14 +156,14 @@ table {
   
   }
   td button{
-    margin: 1px 2.5px;
-    padding: 2.5px 5px;
+    margin: 1px 1px;
+    padding: 1px 2px;
     font-size: 8px;
     border: 1px solid #E4E4E4;
     border-radius: 4px;
   }
   td input[type = "text"], td input[type = "email"]{
-    padding: 2px 4px;
+    padding: 1px;
     font-size: 8px;
     outline: none;
     background-color: #E4E4E4;
