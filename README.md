@@ -1,3 +1,3 @@
 # HireQuotient_Assignment_2
-# Admin Dashboard
+Admin Dashboard
 HTML, CSS, Vanilla Js 
