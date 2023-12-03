@@ -133,6 +133,17 @@ table {
   .pagination-results-update > div:last-of-type  span{
     display: none;
   }
+  .pagination-results-update{
+    position: fixed;
+    bottom: 10%;
+    width: 80%;
+    height: 7%;
+    margin: 0 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+  }
 
 }
 
@@ -141,6 +152,18 @@ table {
     margin: 0;
     padding: 5px 5px;
 
+  }
+  
+  .pagination-results-update{
+    position: fixed;
+    bottom: 15%;
+    width: 80%;
+    height: 10%;
+    margin: 0 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
   }
 
 }
