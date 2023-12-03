@@ -205,8 +205,8 @@ table {
   
   }
   td button{
-    margin: 1px 2.5px;
-    padding: 2.5px 5px;
+    margin: 0px;
+    padding: 0px;
     font-size: 8px;
     border: 1px solid #E4E4E4;
     border-radius: 4px;
@@ -219,7 +219,6 @@ table {
     background-color: #E4E4E4;
     border-radius: 4px;
     border: 1px solid #E4E4E4;
-    max-width: 5%;
   }
 
 }
