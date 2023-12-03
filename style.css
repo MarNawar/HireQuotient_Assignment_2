@@ -6,8 +6,9 @@
 
 body {
   font-family: 'Lato', sans-serif;
-  width: 100vmax;
-  height: 100vmin;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
   margin: 0px;
   padding: 0px;
 }
@@ -92,11 +93,13 @@ table {
 
 .pagination-results-update{
   position: fixed;
-  bottom: 5%;
+  bottom: 0;
   width: 80%;
+  height: 20%;
   margin: 0 10%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .pagination-results-update > div:first-of-type > p{
@@ -133,34 +136,23 @@ table {
     display: none;
   }
   .pagination-results-update{
-    
-    width: 80%;
-    height: 5%;
-    margin: 0 10%;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-around;
     align-items: center;
   }
-
 }
 
-@media (min-width: 501px) and (max-width: 850px) {
+@media (min-width: 501px) and (max-width: 900px) {
   .pagination-results-update > div:last-of-type  button{
     margin: 0;
     padding: 5px 5px;
-
   }
-  
   .pagination-results-update{
-    width: 80%;
-    height: 10%;
-    margin: 0 10%;
     display: flex;
     flex-direction: column;
-    justify-content: end;
+    justify-content: space-around;
     align-items: center;
   }
-  
 
 }
