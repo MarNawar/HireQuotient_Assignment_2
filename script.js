@@ -7,7 +7,7 @@
   let allData;
   let selectedCheckboxesIds =[];
   let ind = 0;
-  const rowsPerPage = 5;
+  const rowsPerPage = 10;
 
 
   //render the table for first time
@@ -52,6 +52,7 @@
     if(checkedRows.length === allRows.length && allRows.length!==0){
       masterCheckbox.checked = true;
     }
+    document.querySelector('.selected-result').innerHTML = `${checkedRows.length} item(s) selected from ${allData.length} item(s)`;
   }
 
   function selectedAll(){
@@ -59,8 +60,9 @@
     const checkedRows = document.querySelectorAll('.trows input[type="checkbox"]');
     checkedRows.forEach(function(checkbox){
       checkbox.checked = masterCheckbox.checked;
-    })        
-
+    })     
+    document.querySelector('.selected-result').innerHTML = `${masterCheckbox.checked?checkedRows.length:0} item(s) selected from ${allData.length} item(s)`;
+    
   }
 
 
@@ -189,7 +191,6 @@
    
   
       const updatedValues = {
-        isChecked : row.children[0].children[0].checked,
         userName : row.children[1].innerText,
         email : row.children[2].innerText,
         role : row.children[3].innerText,
@@ -215,14 +216,14 @@
       else if(e.target.id === 'role'){
         updatedValues.role = e.target.value;
       }
-      row.children[4].innerHTML = `<td><button onclick="updateRow(this, '${id}', '${updatedValues.isChecked}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> ? </button> <button onclick="del('${id}')">X</button></td>`;
+      row.children[4].innerHTML = `<td><button onclick="updateRow(this, '${id}', '${updatedValues.userName}', '${updatedValues.email}', '${updatedValues.role}' ) "> ? </button> <button onclick="del('${id}')">X</button></td>`;
     });
     
   
   }
   
   
-  function updateRow(selectElement, id, isChecked,userName, email, role){
+  function updateRow(selectElement, id, userName, email, role){
     const row = selectElement.parentElement.parentElement;
     
     allData.forEach((user)=>{
@@ -234,7 +235,7 @@
     });
   
     row.innerHTML=`
-        <td><input type='checkbox' id = '${id}' checked=${isChecked}></td>
+        <td><input type='checkbox' id = '${id}'></td>
         <td>${userName}</td>
         <td>${email}</td>
         <td>${role}</td>
@@ -260,7 +261,7 @@
     const div = document.createElement('div');
     div.classList.add('pagination');
     div.innerHTML = `
-      <span>${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)} Pages</span>
+      <span style="font-size:14px; margin:0 20px">${userData.length?Math.ceil((ind+1)/rowsPerPage):0} Page of ${Math.ceil(userData.length/rowsPerPage)} Pages</span>
       <button class="btn btn-primary" id="first">First</button>
       <button class="btn btn-primary" id="prev">Prev</button>
       <span class="numberButton">${numberedButton(Math.ceil((ind+1)/rowsPerPage), Math.ceil(userData.length/rowsPerPage))}</span>

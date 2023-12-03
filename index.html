@@ -8,13 +8,16 @@
 </head>
 <body>
   <section class="bodysection">
-    <input
+    <div class = "actions_container">
+      <input
       type="text"
       class="form-input-filter"
       id="filter"
       placeholder="Filter Items"
     />    
-  <button onclick="delAll()">X</button>
+    <button onclick="delAll()">X</button>
+    </div>
+    
     <table>
       <thead class="theading">
           <th><input type = 'checkbox' onchange="selectedAll()"></th>
@@ -97,11 +100,12 @@
       </tbody>
     </table>
 
-    <section id="search-results-wrapper">
-      <div id="search-results-update"></div>
-      <div id="pagination"></div>
-    </section>
     
+    
+  </section>
+  <section  class="pagination-results-update">
+    <div id="selected-results"><p class="selected-result">0 item(s) selected from 0 item(s)</p></div>
+    <div id="pagination"></div>
   </section>
 
   
