@@ -80,9 +80,7 @@ td button{
 }
 
 
-tr td input[type="checkbox"]:checked{
-  background-color: aquamarine;
-}
+
 
 table {
   width: 100%;
@@ -138,9 +136,15 @@ table {
   .pagination-results-update{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: end;
     align-items: center;
+    margin-bottom: 10%;
+
   }
+  .pagination-results-update > div{
+    margin-top: 25px;
+  }
+
 }
 
 @media (min-width: 501px) and (max-width: 900px) {
@@ -151,8 +155,12 @@ table {
   .pagination-results-update{
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: end;
     align-items: center;
+    margin-bottom: 5%;
+  }
+  .pagination-results-update > div{
+    margin-top: 15px;
   }
 
 }
