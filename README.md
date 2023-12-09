@@ -2,4 +2,4 @@
 Admin Dashboard<br>
 HTML, CSS, Vanilla Js <br>
 Deploy Link : https://hire-quotient-assignment-2-eight.vercel.app/<br>
-React+Redux Verson Github Repo: https://github.com/MarNawar/HireQuotient_Assignment_2_React-Redux
+React+Redux version Github Repo: https://github.com/MarNawar/HireQuotient_Assignment_2_React-Redux
